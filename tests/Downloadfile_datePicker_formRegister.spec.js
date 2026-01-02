@@ -15,7 +15,10 @@ test.beforeEach(async({ page },testInfo)=> {
 
 test('Download file' , async ({page}) =>{
     const dir ='C:\Users\shriylnu\Downloads';
-      await page.click('text=Download File Demo');
+      await page.click('text=Download File Demo'  , {
+  button: 'left',
+  modifiers: []
+});
 const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download File' }).click();
   const download = await downloadPromise;
@@ -28,7 +31,10 @@ const downloadPromise = page.waitForEvent('download');
 
 
 test('Date picker' , async ({page}) =>{
-await page.click('text=Bootstrap Date Picker');
+    await page.click('text=Bootstrap Date Picker'  , {
+  button: 'left',
+  modifiers: []
+});
 const birthdayValue='2000-09-20';
 const today = new Date();
 const currentYear=today.getFullYear();
@@ -51,11 +57,6 @@ await page.getByRole('cell').getByText(startDateYear).click();
 await page.getByText(finalStartDateMonth).click();
  const startDateLocator= page.getByRole('cell', { name: startDate ,exact: true});
  const a = await startDateLocator.getAttribute('class');
-// while(await startDateLocator.getAttribute('class').then(attr=> attr.includes('disabled'))){
-//     const b = parseInt(startDate,10);
-//     const c = b.toString();
-//     await page.getByRole('cell', { name: c  ,exact: true}).click();
-// }
  await startDateLocator.click();
 await page.getByRole('textbox', { name: 'End date' }).click();
 await page.getByRole('columnheader', { name: finalStartDateMonth }).click();
@@ -67,3 +68,25 @@ await endDateLocator.click();
 });
 
 
+test('form registartion' , async ({page}) => {
+      await page.click('text=Input Form Submit'  , {
+  button: 'left',
+  modifiers: []
+});
+page.waitForLoadState('domcontentloaded');
+ await page.fill('#name', 'shriya');
+await page.locator('[id*="inputEmail4"]').fill("shriylnu@deoite.com");
+await page.locator('[id*="inputPassword"]').fill("abef123");
+await page.fill('#company' , 'XYZ');
+await page.fill('#websitename' , 'XYZ');
+await page.locator("select[name='country']").selectOption("India");
+await page.fill('#inputCity' , 'Jalandhar');
+await page.fill('#inputAddress1' , '20');
+await page.fill('#inputAddress2' , 'deg');
+await page.fill('#inputState' , 'Punjab');
+await page.fill('#inputZip' , '123456');
+await page.getByRole('button' , {name : 'Submit'}).click();
+ const msg = await page.locator("[style*='block']").textContent();
+ console.log(msg);
+ expect(msg).toContain("Thanks");
+})

@@ -1,12 +1,17 @@
 import { toList } from '../utils/conversion';
 const { test , expect } = require('@playwright/test');
-test.beforeEach(async({ page })=> {
-  await page.goto("https://www.lambdatest.com/selenium-playground/");
+test.beforeEach(async({ page },testInfo)=> {
+    const mySite = "https://www.lambdatest.com/selenium-playground/";
+    testInfo.setTimeout(testInfo.timeout + 3000);
+  await page.goto(mySite, {waitUntil: 'domcontentloaded'});
 });
 
 
 test('Ajax form submit' , async ({ page}) => {
-await page.click('text=Ajax Form Submit');
+await page.click('text=Ajax Form Submit'  , {
+  button: 'left',
+  modifiers: []
+});
 await page.fill('#title' , 'shriya');
 await page.fill('#description' , 'Hi I am shriya');
 await page.click('#btn-submit');
@@ -16,7 +21,10 @@ await expect(status).toContainText('Ajax Request');
 
  test('Bootstrap list' , async ({ page}) => {
 const leftItem="Kedungjenar";
- await page.click('text=Bootstrap List Box');
+ await page.click('text=Bootstrap List Box'  , {
+  button: 'left',
+  modifiers: []
+});
  await page.getByText(leftItem).click();
  await page.getByRole('button', { name: '>' }).nth(1).click();
  await page.locator(".dual-list.list-right ul").first().waitFor();
@@ -36,7 +44,10 @@ expect(leftList1).toEqual(expect.arrayContaining(rightList1));
  })
 
 test('Checkbox' , async ({ page}) => {
- await page.click('text=Checkbox Demo');
+  await page.click('text=Checkbox Demo'  , {
+  button: 'left',
+  modifiers: []
+});
  const i= 0;
  await page.getByRole('checkbox', { name: 'Click on check box' }).check();
  //const checbox1Status=  await page.getByRole('checkbox', { name: 'Click on check box' }).isChecked();

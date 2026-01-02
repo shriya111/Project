@@ -13,7 +13,10 @@ test.beforeEach(async ({page} , testInfo) =>{
 test('filter' , async ({page}) => {
 const title = await page.title('Selenium Grid Online | Run Selenium Test On Cloud');
 expect(title).toEqual('Selenium Grid Online | Run Selenium Test On Cloud');
-await page.locator('text=Table Data Search').click();
+  await page.click('text=Table Data Search'  , {
+  button: 'left',
+  modifiers: []
+});
 const filter1= page.locator('#task-table-filter');
 await filter1.fill("failed");
 await filter1.press('Enter');
@@ -28,7 +31,10 @@ console.log(tableContent1);
 
 test('upload' , async ({page}) => {
 const fileName= "C:\\Users\\shriylnu\\Downloads\\LambdaTest.pdf";
-await page.locator('text=Upload File Demo').click();
+ await page.click('text=Upload File Demo'  , {
+  button: 'left',
+  modifiers: []
+});
 const file= await page.locator('#file');
 await file.setInputFiles(fileName);
 const successLocator = await page.locator('text=File Successfully Uploaded');
@@ -37,7 +43,10 @@ await expect(successLocator).toBeVisible();
 })
 
 test('Redirected' , async ({ page }) => {
- await page.click('text=Redirection');
+   await page.click('text=Redirection'  , {
+  button: 'left',
+  modifiers: []
+});
  const redirect= page.getByRole('link' , {name : 'here'});
  await Promise.all(
    [
