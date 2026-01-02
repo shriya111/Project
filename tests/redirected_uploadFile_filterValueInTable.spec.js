@@ -1,6 +1,7 @@
 const { test , expect} = require ('@playwright/test');
 const { loadEnvFile } = require('node:process');
-
+import fs from 'fs';
+import path from 'path';
 test.beforeEach(async ({page} , testInfo) =>{
     const mySite = "https://www.lambdatest.com/selenium-playground/";
     testInfo.setTimeout(testInfo.timeout+3000);
@@ -30,7 +31,8 @@ console.log(tableContent1);
 })
 
 test('upload' , async ({page}) => {
-const fileName= "C:\\Users\\shriylnu\\Downloads\\LambdaTest.pdf";
+  const fileName= path.resolve(__dirname,'../test-files/LambdaTest.pdf');
+// const fileName= "C:\\Users\\shriylnu\\Downloads\\LambdaTest.pdf";
  await page.click('text=Upload File Demo'  , {
   button: 'left',
   modifiers: []
