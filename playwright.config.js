@@ -34,7 +34,7 @@ export default defineConfig({
     trace: 'on',
     video: 'on',
     screenshot: 'on',
-    headless: false,
+    headless: process.env.CI ? true:false,
     slowMo: 1000
   },
 
