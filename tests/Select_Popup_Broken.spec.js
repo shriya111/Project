@@ -57,3 +57,31 @@ console.log(await newPage.title());
 console.log(await page.title());
 await newPage.close();
 })
+
+test('Broken image' , async ({page , request}) =>{
+    await page.click('text=Broken Image'  , {
+  button: 'left',
+  modifiers: []
+});
+await page.waitForLoadState("domcontentloaded");
+const images = page.locator('img');
+let brokenImages=[];
+console.log(await images.count());
+const allimages = await images.all();
+for( let img of allimages){
+    const imgsrc = await img?.getAttribute('src');
+   try{
+  const res = await page.request.get(imgsrc , {timeout: 10000});
+  const status = await res.status()
+  if( status !== 200){
+    console.log(status,imgsrc)
+  }
+}
+  catch(error){
+      console.log( imgsrc)
+     brokenImages.push(imgsrc);
+      continue;
+  }
+  }
+expect(brokenImages.length).toBe(2);
+});
