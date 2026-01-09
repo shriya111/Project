@@ -49,7 +49,6 @@ const id = page.locator('#id');
 const name = page.locator('#name');
 const subject = page.locator('#subject');
 await id.waitFor();
-await id.scrollIntoViewIfNeeded();
 await id.fill("1");
 await name.scrollIntoViewIfNeeded();
 await subject.click({force: true});
@@ -89,5 +88,12 @@ expect(ageSort).toEqual(sortAge);
 
 });
 
-
-
+test('iframe' , async ({page}) => {
+await page.click('text=iFrame Demo');
+page.waitForLoadState('domcontentloaded');
+const framel = await page.frameLocator('[id="iFrame1"]');
+const textBox= framel.locator('.rsw-ce');
+await textBox.fill("hi");
+console.log(await textBox.textContent());
+expect(await textBox.textContent()).toContain("hi");
+});
