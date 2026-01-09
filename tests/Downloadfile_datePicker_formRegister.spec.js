@@ -74,6 +74,7 @@ test('form registartion' , async ({page}) => {
   modifiers: []
 });
 page.waitForLoadState('domcontentloaded');
+await page.locator('#name').waitFor();
  await page.fill('#name', 'shriya');
 await page.locator('[id*="inputEmail4"]').fill("shriylnu@deoite.com");
 await page.locator('[id*="inputPassword"]').fill("abef123");
